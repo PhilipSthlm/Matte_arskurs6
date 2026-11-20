@@ -1,0 +1,1601 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nationella provet i matematik – Åk 6</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Ren typografi utan beroende av externa typsnittsservrar */
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background-color: #f4f6f9;
+      color: #0f172a;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .font-math {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+      font-variant-numeric: tabular-nums;
+    }
+    .key-btn {
+      transition: transform 0.06s ease, box-shadow 0.1s ease, background-color 0.12s ease;
+      user-select: none;
+    }
+    .key-btn:active {
+      transform: translateY(2px);
+    }
+    .dot-btn {
+      transition: transform 0.12s ease, background-color 0.15s ease, border-color 0.15s ease;
+    }
+    .dot-btn:hover {
+      transform: scale(1.12);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-blue-200 selection:text-blue-950">
+
+  <!-- TOPPMENY / HEADER -->
+  <header class="bg-slate-900 text-white border-b border-slate-800 sticky top-0 z-30 shadow-sm">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-3.5 flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center font-math font-bold text-lg shadow-inner border border-blue-400/30">
+          ∑6
+        </div>
+        <div>
+          <h1 class="text-base sm:text-lg font-bold tracking-tight leading-tight">
+            Nationella provet i matematik
+          </h1>
+          <p class="text-xs text-slate-400 font-medium">
+            Årskurs 6 • Interaktiv övnings- &amp; slumpgenerator
+          </p>
+        </div>
+      </div>
+
+      <!-- Statusindikatorer (visas under pågående pass) -->
+      <div id="header-stats" class="hidden flex items-center gap-2 sm:gap-3">
+        <div class="bg-slate-800 border border-slate-700 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-semibold text-slate-200">
+          Uppgift <span id="header-progress" class="font-math text-white font-bold">1 / 7</span>
+        </div>
+        <div class="bg-emerald-950/80 border border-emerald-700/60 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-semibold text-emerald-300">
+          Poäng: <span id="header-score" class="font-math text-emerald-200 font-bold">0</span>
+        </div>
+        <button
+          type="button"
+          onclick="returnToStart()"
+          class="bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 px-3 py-1.5 rounded-xl text-xs font-semibold transition cursor-pointer"
+          title="Avbryt och gå tillbaka till startskärmen"
+        >
+          Startmeny
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- HUVUDINNEHÅLL -->
+  <main class="flex-grow max-w-6xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-8">
+
+    <!-- 1. STARTSKÄRM -->
+    <section id="screen-start" class="max-w-3xl mx-auto">
+      <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-6 sm:p-10 space-y-8">
+        <div class="space-y-3">
+          <span class="inline-block bg-blue-50 text-blue-700 border border-blue-200 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full">
+            Förberedelse inför NP • Åk 6
+          </span>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+            Träna på alla centrala delar inför nationella provet
+          </h2>
+          <p class="text-slate-600 text-base sm:text-lg leading-relaxed">
+            Varje övningspass genererar helt nya uppgifter med slumpade tal inom bråk, procent, geometri, algebra, enheter, statistik och sannolikhet. Du får tillgång till ledtrådar, stegvisa förklaringar och formler vid varje uppgift.
+          </p>
+        </div>
+
+        <!-- Ämnesöversikt -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+          <div class="bg-slate-50 border border-slate-200/80 rounded-2xl p-3.5">
+            <div class="text-blue-600 font-math font-bold text-sm mb-1">3/4 • 75 %</div>
+            <div class="text-xs font-bold text-slate-800">Bråk &amp; Procent</div>
+            <div class="text-[11px] text-slate-500 mt-0.5">Jämförelser &amp; rabatt</div>
+          </div>
+          <div class="bg-slate-50 border border-slate-200/80 rounded-2xl p-3.5">
+            <div class="text-emerald-600 font-math font-bold text-sm mb-1">A = b·h / 2</div>
+            <div class="text-xs font-bold text-slate-800">Geometri</div>
+            <div class="text-[11px] text-slate-500 mt-0.5">Area, omkrets &amp; vinklar</div>
+          </div>
+          <div class="bg-slate-50 border border-slate-200/80 rounded-2xl p-3.5">
+            <div class="text-amber-600 font-math font-bold text-sm mb-1">4x + 6 = 26</div>
+            <div class="text-xs font-bold text-slate-800">Algebra &amp; Mönster</div>
+            <div class="text-[11px] text-slate-500 mt-0.5">Ekvationer &amp; talföljder</div>
+          </div>
+          <div class="bg-slate-50 border border-slate-200/80 rounded-2xl p-3.5">
+            <div class="text-purple-600 font-math font-bold text-sm mb-1">dl • kg • P(A)</div>
+            <div class="text-xs font-bold text-slate-800">Enheter &amp; Data</div>
+            <div class="text-[11px] text-slate-500 mt-0.5">Medel, median &amp; slump</div>
+          </div>
+        </div>
+
+        <!-- Val av antal frågor -->
+        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-5 sm:p-6 space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div>
+              <h3 class="font-bold text-slate-900 text-base sm:text-lg">Välj längd på övningspasset</h3>
+              <p class="text-xs sm:text-sm text-slate-500">Klicka på önskat antal slumpade uppgifter för att starta direkt.</p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <button
+              type="button"
+              onclick="startNewSession(7)"
+              class="group bg-white hover:bg-blue-600 border-2 border-slate-200 hover:border-blue-600 rounded-2xl p-4 text-left transition shadow-sm cursor-pointer"
+            >
+              <div class="flex items-center justify-between mb-1">
+                <span class="font-math text-2xl font-extrabold text-slate-900 group-hover:text-white">7 frågor</span>
+                <span class="text-xs font-bold bg-blue-100 text-blue-800 group-hover:bg-blue-500 group-hover:text-white px-2.5 py-0.5 rounded-full">Snabbpass</span>
+              </div>
+              <p class="text-xs text-slate-500 group-hover:text-blue-100">Ca 5–10 min • Ett brett urval</p>
+            </button>
+
+            <button
+              type="button"
+              onclick="startNewSession(10)"
+              class="group bg-white hover:bg-blue-600 border-2 border-blue-200 hover:border-blue-600 rounded-2xl p-4 text-left transition shadow-sm cursor-pointer"
+            >
+              <div class="flex items-center justify-between mb-1">
+                <span class="font-math text-2xl font-extrabold text-slate-900 group-hover:text-white">10 frågor</span>
+                <span class="text-xs font-bold bg-amber-100 text-amber-900 group-hover:bg-blue-500 group-hover:text-white px-2.5 py-0.5 rounded-full">Rekommenderad</span>
+              </div>
+              <p class="text-xs text-slate-500 group-hover:text-blue-100">Ca 10–15 min • Täcker alla områden</p>
+            </button>
+
+            <button
+              type="button"
+              onclick="startNewSession(15)"
+              class="group bg-white hover:bg-blue-600 border-2 border-slate-200 hover:border-blue-600 rounded-2xl p-4 text-left transition shadow-sm cursor-pointer"
+            >
+              <div class="flex items-center justify-between mb-1">
+                <span class="font-math text-2xl font-extrabold text-slate-900 group-hover:text-white">15 frågor</span>
+                <span class="text-xs font-bold bg-slate-200 text-slate-700 group-hover:bg-blue-500 group-hover:text-white px-2.5 py-0.5 rounded-full">Fullträning</span>
+              </div>
+              <p class="text-xs text-slate-500 group-hover:text-blue-100">Ca 15–25 min • Djupgående träning</p>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. ÖVNINGSSKÄRM -->
+    <section id="screen-quiz" class="hidden space-y-5">
+
+      <!-- Visuell frågekarta -->
+      <div class="bg-white rounded-2xl border border-slate-200 px-4 py-3 shadow-sm flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center gap-2 flex-wrap" id="question-map" aria-label="Frågekarta">
+          <!-- Genereras via JS -->
+        </div>
+        <div class="flex items-center gap-3 text-xs text-slate-500 font-medium">
+          <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block"></span> Rätt</span>
+          <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-rose-500 inline-block"></span> Fel</span>
+          <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-slate-200 border border-slate-300 inline-block"></span> Obesvarad</span>
+        </div>
+      </div>
+
+      <!-- Huvudgrid: Uppgift + Skrivruta till vänster, Hjälpkort till höger -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+
+        <!-- VÄNSTER KOLUMN (7 kolumner på desktop): Uppgift, Skrivruta & Åk 6-knappsats -->
+        <div class="lg:col-span-7 bg-white rounded-3xl border border-slate-200 shadow-sm p-5 sm:p-7 space-y-5">
+
+          <!-- Kategori-badge & Delprovsinfo -->
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <span id="q-category" class="bg-blue-50 text-blue-800 border border-blue-200 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full">
+              Kategori
+            </span>
+            <span id="q-part" class="text-xs font-math font-semibold text-slate-500 bg-slate-100 px-2.5 py-1 rounded-lg">
+              Delprov B/D
+            </span>
+          </div>
+
+          <!-- Frågerubrik & Uppgiftstext -->
+          <div class="space-y-3">
+            <h2 id="q-title" class="text-xl sm:text-2xl font-extrabold text-slate-900 leading-snug">
+              Frågerubrik
+            </h2>
+            <div id="q-body" class="bg-slate-50 border border-slate-200/90 rounded-2xl p-4 sm:p-5 text-slate-800 text-base sm:text-lg leading-relaxed">
+              Uppgiftstext
+            </div>
+          </div>
+
+          <!-- SKRIV-RUTA & LIVE-TOLKNING -->
+          <div class="space-y-2.5 pt-1">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <label for="answer-input" class="text-xs font-bold uppercase tracking-wider text-slate-700">
+                Ditt svar <span id="q-unit-hint" class="text-blue-700 normal-case font-semibold"></span>
+              </label>
+              <div class="flex items-center gap-1.5">
+                <button
+                  type="button"
+                  onclick="backspaceAtCursor()"
+                  title="Sudda ett tecken vid markören (⌫)"
+                  class="key-btn bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 font-math font-bold text-xs sm:text-sm px-3 py-1.5 rounded-xl cursor-pointer"
+                >
+                  ⌫ Sudda
+                </button>
+                <button
+                  type="button"
+                  onclick="clearInput()"
+                  title="Rensa hela skrivrutan (C)"
+                  class="key-btn bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 font-math font-bold text-xs sm:text-sm px-3 py-1.5 rounded-xl cursor-pointer"
+                >
+                  C Rensa
+                </button>
+              </div>
+            </div>
+
+            <!-- Stor skrivruta -->
+            <div class="relative">
+              <input
+                type="text"
+                id="answer-input"
+                autocomplete="off"
+                spellcheck="false"
+                placeholder="Skriv ditt svar här..."
+                class="w-full font-math text-2xl sm:text-3xl font-bold px-4 py-3.5 pr-20 rounded-2xl border-2 border-slate-300 bg-white text-slate-900 shadow-inner focus:outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-600/15 transition"
+              />
+              <span
+                id="input-unit-badge"
+                class="hidden absolute right-3.5 top-1/2 -translate-y-1/2 font-math text-sm font-bold text-slate-500 bg-slate-100 border border-slate-200 px-2.5 py-1 rounded-lg pointer-events-none"
+              ></span>
+            </div>
+
+            <!-- Live-rad som visar hur svaret tolkas -->
+            <div id="live-parse-bar" class="bg-slate-50 border border-slate-200/80 rounded-xl px-3.5 py-2 text-xs text-slate-600 flex items-center gap-2 min-h-[34px]">
+              <span class="w-2 h-2 rounded-full bg-slate-400 shrink-0" id="live-parse-dot"></span>
+              <span id="live-parse-text">Skriv med tangentbordet eller klicka på knappsatsen nedan.</span>
+            </div>
+          </div>
+
+          <!-- UTÖKAD FÄRGKODAD ÅK 6-KNAPPSATS -->
+          <div class="bg-slate-100/80 border border-slate-200 rounded-2xl p-3 sm:p-4 space-y-3.5">
+
+            <!-- Sektion 1: Siffror 0-9 -->
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between px-0.5">
+                <span class="text-[11px] font-bold uppercase tracking-wider text-slate-600">Siffror</span>
+                <span class="text-[11px] font-math text-slate-400">0–9</span>
+              </div>
+              <div class="grid grid-cols-5 sm:grid-cols-10 gap-1.5">
+                <button type="button" onclick="insertAtCursor('0')" class="key-btn bg-white hover:bg-blue-50 border border-slate-300 hover:border-blue-400 rounded-xl py-2.5 font-math font-bold text-lg text-slate-900 shadow-sm cursor-pointer">0</button>
+                <button type="button" onclick="insertAtCursor('1')" class="key-btn bg-white hover:bg-blue-50 border border-slate-300 hover:border-blue-400 rounded-xl py-2.5 font-math font-bold text-lg text-slate-900 shadow-sm cursor-pointer">1</button>
+                <button type="button" onclick="insertAtCursor('2')" class="key-btn bg-white hover:bg-blue-50 border border-slate-300 hover:border-blue-400 rounded-xl py-2.5 font-math font-bold text-lg text-slate-900 shadow-sm cursor-pointer">2</button>
+                <button type="button" onclick="insertAtCursor('3')" class="key-btn bg-white hover:bg-blue-50 border border-slate-300 hover:border-blue-400 rounded-xl py-2.5 font-math font-bold text-lg text-slate-900 shadow-sm cursor-pointer">3</button>
+                <button type="button" onclick="insertAtCursor('4')" class="key-btn bg-white hover:bg-blue-50 border border-slate-300 hover:border-blue-400 rounded-xl py-2.5 font-math font-bold text-lg text-slate-900 shadow-sm cursor-pointer">4</button>
+                <button type="button" onclick="insertAtCursor('5')" class="key-btn bg-white hover:bg-blue-50 border border-slate-300 hover:border-blue-400 rounded-xl py-2.5 font-math font-bold text-lg text-slate-900 shadow-sm cursor-pointer">5</button>
+                <button type="button" onclick="insertAtCursor('6')" class="key-btn bg-white hover:bg-blue-50 border border-slate-300 hover:border-blue-400 rounded-xl py-2.5 font-math font-bold text-lg text-slate-900 shadow-sm cursor-pointer">6</button>
+                <button type="button" onclick="insertAtCursor('7')" class="key-btn bg-white hover:bg-blue-50 border border-slate-300 hover:border-blue-400 rounded-xl py-2.5 font-math font-bold text-lg text-slate-900 shadow-sm cursor-pointer">7</button>
+                <button type="button" onclick="insertAtCursor('8')" class="key-btn bg-white hover:bg-blue-50 border border-slate-300 hover:border-blue-400 rounded-xl py-2.5 font-math font-bold text-lg text-slate-900 shadow-sm cursor-pointer">8</button>
+                <button type="button" onclick="insertAtCursor('9')" class="key-btn bg-white hover:bg-blue-50 border border-slate-300 hover:border-blue-400 rounded-xl py-2.5 font-math font-bold text-lg text-slate-900 shadow-sm cursor-pointer">9</button>
+              </div>
+            </div>
+
+            <!-- Sektion 2: Räknesätt & jämförelse -->
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between px-0.5">
+                <span class="text-[11px] font-bold uppercase tracking-wider text-amber-800">Räknesätt &amp; jämförelse</span>
+              </div>
+              <div class="grid grid-cols-5 sm:grid-cols-9 gap-1.5">
+                <button type="button" onclick="insertAtCursor('+')" title="Plus" class="key-btn bg-amber-50 hover:bg-amber-100 border border-amber-300 rounded-xl py-2 font-math font-bold text-base text-amber-950 shadow-sm cursor-pointer">+</button>
+                <button type="button" onclick="insertAtCursor('−')" title="Minus" class="key-btn bg-amber-50 hover:bg-amber-100 border border-amber-300 rounded-xl py-2 font-math font-bold text-base text-amber-950 shadow-sm cursor-pointer">−</button>
+                <button type="button" onclick="insertAtCursor('·')" title="Multiplikation (punkt)" class="key-btn bg-amber-50 hover:bg-amber-100 border border-amber-300 rounded-xl py-2 font-math font-bold text-base text-amber-950 shadow-sm cursor-pointer">·</button>
+                <button type="button" onclick="insertAtCursor('×')" title="Multiplikation (gånger)" class="key-btn bg-amber-50 hover:bg-amber-100 border border-amber-300 rounded-xl py-2 font-math font-bold text-base text-amber-950 shadow-sm cursor-pointer">×</button>
+                <button type="button" onclick="insertAtCursor(':')" title="Division (kolon)" class="key-btn bg-amber-50 hover:bg-amber-100 border border-amber-300 rounded-xl py-2 font-math font-bold text-base text-amber-950 shadow-sm cursor-pointer">:</button>
+                <button type="button" onclick="insertAtCursor('=')" title="Lika med" class="key-btn bg-amber-50 hover:bg-amber-100 border border-amber-300 rounded-xl py-2 font-math font-bold text-base text-amber-950 shadow-sm cursor-pointer">=</button>
+                <button type="button" onclick="insertAtCursor('≈')" title="Ungefär lika med" class="key-btn bg-amber-50 hover:bg-amber-100 border border-amber-300 rounded-xl py-2 font-math font-bold text-base text-amber-950 shadow-sm cursor-pointer">≈</button>
+                <button type="button" onclick="insertAtCursor('<')" title="Mindre än" class="key-btn bg-amber-50 hover:bg-amber-100 border border-amber-300 rounded-xl py-2 font-math font-bold text-base text-amber-950 shadow-sm cursor-pointer">&lt;</button>
+                <button type="button" onclick="insertAtCursor('>')" title="Större än" class="key-btn bg-amber-50 hover:bg-amber-100 border border-amber-300 rounded-xl py-2 font-math font-bold text-base text-amber-950 shadow-sm cursor-pointer">&gt;</button>
+              </div>
+            </div>
+
+            <!-- Sektion 3: Decimal, bråk & enheter -->
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between px-0.5">
+                <span class="text-[11px] font-bold uppercase tracking-wider text-emerald-800">Decimal, bråk &amp; enheter</span>
+              </div>
+              <div class="grid grid-cols-5 sm:grid-cols-8 gap-1.5">
+                <button type="button" onclick="insertAtCursor(',')" title="Kommatecken" class="key-btn bg-sky-50 hover:bg-sky-100 border border-sky-300 rounded-xl py-2 font-math font-bold text-sm text-sky-950 shadow-sm cursor-pointer">,</button>
+                <button type="button" onclick="insertAtCursor('.')" title="Punkt" class="key-btn bg-sky-50 hover:bg-sky-100 border border-sky-300 rounded-xl py-2 font-math font-bold text-sm text-sky-950 shadow-sm cursor-pointer">.</button>
+                <button type="button" onclick="insertAtCursor('/')" title="Bråkstreck" class="key-btn bg-sky-50 hover:bg-sky-100 border border-sky-300 rounded-xl py-2 font-math font-bold text-sm text-sky-950 shadow-sm cursor-pointer">/</button>
+                <button type="button" onclick="insertAtCursor('%')" title="Procent" class="key-btn bg-emerald-50 hover:bg-emerald-100 border border-emerald-300 rounded-xl py-2 font-math font-bold text-sm text-emerald-950 shadow-sm cursor-pointer">%</button>
+                <button type="button" onclick="insertAtCursor(' kr')" class="key-btn bg-emerald-50 hover:bg-emerald-100 border border-emerald-300 rounded-xl py-2 font-math font-bold text-xs sm:text-sm text-emerald-950 shadow-sm cursor-pointer">kr</button>
+                <button type="button" onclick="insertAtCursor(' cm')" class="key-btn bg-emerald-50 hover:bg-emerald-100 border border-emerald-300 rounded-xl py-2 font-math font-bold text-xs sm:text-sm text-emerald-950 shadow-sm cursor-pointer">cm</button>
+                <button type="button" onclick="insertAtCursor(' m')" class="key-btn bg-emerald-50 hover:bg-emerald-100 border border-emerald-300 rounded-xl py-2 font-math font-bold text-xs sm:text-sm text-emerald-950 shadow-sm cursor-pointer">m</button>
+                <button type="button" onclick="insertAtCursor(' km')" class="key-btn bg-emerald-50 hover:bg-emerald-100 border border-emerald-300 rounded-xl py-2 font-math font-bold text-xs sm:text-sm text-emerald-950 shadow-sm cursor-pointer">km</button>
+
+                <button type="button" onclick="insertAtCursor(' kg')" class="key-btn bg-emerald-50 hover:bg-emerald-100 border border-emerald-300 rounded-xl py-2 font-math font-bold text-xs sm:text-sm text-emerald-950 shadow-sm cursor-pointer">kg</button>
+                <button type="button" onclick="insertAtCursor(' g')" class="key-btn bg-emerald-50 hover:bg-emerald-100 border border-emerald-300 rounded-xl py-2 font-math font-bold text-xs sm:text-sm text-emerald-950 shadow-sm cursor-pointer">g</button>
+                <button type="button" onclick="insertAtCursor(' l')" class="key-btn bg-emerald-50 hover:bg-emerald-100 border border-emerald-300 rounded-xl py-2 font-math font-bold text-xs sm:text-sm text-emerald-950 shadow-sm cursor-pointer">l</button>
+                <button type="button" onclick="insertAtCursor(' dl')" class="key-btn bg-emerald-50 hover:bg-emerald-100 border border-emerald-300 rounded-xl py-2 font-math font-bold text-xs sm:text-sm text-emerald-950 shadow-sm cursor-pointer">dl</button>
+                <button type="button" onclick="insertAtCursor('°')" title="Grader" class="key-btn bg-emerald-50 hover:bg-emerald-100 border border-emerald-300 rounded-xl py-2 font-math font-bold text-sm text-emerald-950 shadow-sm cursor-pointer">°</button>
+                <button type="button" onclick="insertAtCursor(' cm²')" title="Kvadratcentimeter" class="key-btn bg-emerald-50 hover:bg-emerald-100 border border-emerald-300 rounded-xl py-2 font-math font-bold text-xs sm:text-sm text-emerald-950 shadow-sm cursor-pointer">cm²</button>
+                <button type="button" onclick="insertAtCursor(' ')" title="Mellanslag" class="key-btn col-span-2 bg-white hover:bg-slate-200 border border-slate-300 rounded-xl py-2 font-math font-bold text-xs sm:text-sm text-slate-700 shadow-sm cursor-pointer">␣ Mellanslag</button>
+              </div>
+            </div>
+
+            <!-- Stor grön Bekräfta svar-knapp -->
+            <div class="pt-1">
+              <button
+                type="button"
+                id="confirm-btn"
+                onclick="checkAnswer()"
+                class="key-btn w-full bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-extrabold text-base sm:text-lg py-3.5 px-6 rounded-2xl shadow-md shadow-emerald-600/20 flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <span>✓ Bekräfta svar</span>
+                <span class="text-xs font-math bg-emerald-500/60 px-2 py-0.5 rounded-md hidden sm:inline">Enter ↵</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- ÅTERKOPPLING (Rätt / Fel / Varning) -->
+          <div id="feedback-area" class="hidden rounded-2xl p-4 border-2"></div>
+
+          <!-- NAVIGERING MELLAN FRÅGOR -->
+          <div class="pt-2 border-t border-slate-100 flex items-center justify-between gap-3">
+            <button
+              type="button"
+              id="btn-prev"
+              onclick="goToQuestion(currentIndex - 1)"
+              class="px-4 py-2.5 rounded-xl border border-slate-300 bg-white hover:bg-slate-50 disabled:opacity-40 disabled:pointer-events-none text-slate-700 font-bold text-sm transition cursor-pointer"
+            >
+              ← Föregående
+            </button>
+
+            <button
+              type="button"
+              id="btn-next"
+              onclick="nextOrFinish()"
+              class="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm transition shadow-sm cursor-pointer"
+            >
+              Nästa fråga →
+            </button>
+          </div>
+        </div>
+
+        <!-- HÖGER KOLUMN (5 kolumner på desktop): Utfällbara hjälpkort -->
+        <div class="lg:col-span-5 space-y-3.5">
+          <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-5 space-y-3.5">
+            <div class="flex items-center justify-between">
+              <h3 class="font-extrabold text-slate-900 text-base">Hjälp &amp; Stöd</h3>
+              <span class="text-xs text-slate-500">Klicka för att öppna</span>
+            </div>
+
+            <!-- Hjälpkort 1: Ledtråd -->
+            <div class="border border-amber-200 rounded-2xl overflow-hidden bg-amber-50/40">
+              <button
+                type="button"
+                onclick="toggleHelp('hint')"
+                aria-expanded="false"
+                id="btn-help-hint"
+                class="w-full px-4 py-3.5 flex items-center justify-between text-left font-bold text-sm text-amber-950 hover:bg-amber-100/60 transition cursor-pointer"
+              >
+                <span class="flex items-center gap-2.5">
+                  <span class="w-7 h-7 rounded-lg bg-amber-200/80 text-amber-900 flex items-center justify-center font-math font-bold text-xs">1</span>
+                  <span>Ledtråd</span>
+                </span>
+                <span id="chevron-hint" class="font-math text-amber-800 text-sm transition-transform">▼</span>
+              </button>
+              <div id="panel-hint" class="hidden px-4 pb-4 pt-1 text-sm text-slate-700 leading-relaxed border-t border-amber-200/60 bg-white">
+                <p id="q-hint"></p>
+              </div>
+            </div>
+
+            <!-- Hjälpkort 2: Förklaring -->
+            <div class="border border-blue-200 rounded-2xl overflow-hidden bg-blue-50/40">
+              <button
+                type="button"
+                onclick="toggleHelp('explanation')"
+                aria-expanded="false"
+                id="btn-help-explanation"
+                class="w-full px-4 py-3.5 flex items-center justify-between text-left font-bold text-sm text-blue-950 hover:bg-blue-100/60 transition cursor-pointer"
+              >
+                <span class="flex items-center gap-2.5">
+                  <span class="w-7 h-7 rounded-lg bg-blue-200/80 text-blue-900 flex items-center justify-center font-math font-bold text-xs">2</span>
+                  <span>Förklaring</span>
+                </span>
+                <span id="chevron-explanation" class="font-math text-blue-800 text-sm transition-transform">▼</span>
+              </button>
+              <div id="panel-explanation" class="hidden px-4 pb-4 pt-1 text-sm text-slate-700 leading-relaxed border-t border-blue-200/60 bg-white">
+                <p id="q-explanation"></p>
+              </div>
+            </div>
+
+            <!-- Hjälpkort 3: Lösning & Formel -->
+            <div class="border border-slate-300 rounded-2xl overflow-hidden bg-slate-50">
+              <button
+                type="button"
+                onclick="toggleHelp('solution')"
+                aria-expanded="false"
+                id="btn-help-solution"
+                class="w-full px-4 py-3.5 flex items-center justify-between text-left font-bold text-sm text-slate-900 hover:bg-slate-200/60 transition cursor-pointer"
+              >
+                <span class="flex items-center gap-2.5">
+                  <span class="w-7 h-7 rounded-lg bg-slate-800 text-white flex items-center justify-center font-math font-bold text-xs">3</span>
+                  <span>Lösning &amp; Formel</span>
+                </span>
+                <span id="chevron-solution" class="font-math text-slate-700 text-sm transition-transform">▼</span>
+              </button>
+              <div id="panel-solution" class="hidden p-4 bg-slate-900 text-slate-100 space-y-2.5 border-t border-slate-800">
+                <div>
+                  <div class="text-[11px] font-math uppercase tracking-wider text-amber-400 font-bold mb-0.5">Formel / Metod</div>
+                  <p id="q-formula" class="font-math text-xs sm:text-sm text-slate-300"></p>
+                </div>
+                <div class="pt-2 border-t border-slate-800">
+                  <div class="text-[11px] font-math uppercase tracking-wider text-emerald-400 font-bold mb-0.5">Steg-för-steg-lösning</div>
+                  <p id="q-solution" class="font-math text-xs sm:text-sm text-white leading-relaxed"></p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Snabbtips för NP åk 6 -->
+          <div class="bg-slate-900 text-slate-300 rounded-2xl p-4 text-xs leading-relaxed border border-slate-800">
+            <span class="font-bold text-white block mb-1">💡 Tips inför provet:</span>
+            Du kan skriva svar både med och utan enhet (t.ex. <span class="font-math text-amber-300">25</span> eller <span class="font-math text-amber-300">25 dl</span>) och använda komma eller punkt i decimaltal.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. RESULTATSKÄRM -->
+    <section id="screen-results" class="hidden max-w-4xl mx-auto space-y-6">
+      <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-6 sm:p-10 space-y-8">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-6 pb-6 border-b border-slate-200">
+          <div class="space-y-2">
+            <span class="inline-block bg-emerald-50 text-emerald-800 border border-emerald-200 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full">
+              Övningspass slutfört
+            </span>
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">
+              Ditt resultat på passet
+            </h2>
+            <p id="result-message" class="text-slate-600 text-sm sm:text-base">
+              Bra jobbat! Se sammanställningen och välj hur du vill fortsätta träna.
+            </p>
+          </div>
+
+          <!-- Poängkort -->
+          <div class="bg-slate-900 text-white rounded-2xl px-6 py-5 text-center shrink-0 min-w-[170px]">
+            <div id="result-score-fraction" class="font-math text-3xl sm:text-4xl font-extrabold text-white">
+              0 / 7
+            </div>
+            <div id="result-score-percent" class="font-math text-sm font-bold text-emerald-400 mt-1">
+              0 % rätt
+            </div>
+          </div>
+        </div>
+
+        <!-- Tre tydliga valknappar -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+          <button
+            type="button"
+            onclick="startNewSession(lastSessionLength)"
+            class="bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm sm:text-base py-4 px-5 rounded-2xl shadow-sm transition cursor-pointer flex flex-col items-center justify-center text-center gap-1"
+          >
+            <span>Generera nya frågor</span>
+            <span class="text-xs font-normal text-blue-100">Nytt pass med slumpade tal</span>
+          </button>
+
+          <button
+            type="button"
+            onclick="retrySameQuestions()"
+            class="bg-slate-100 hover:bg-slate-200 text-slate-900 border border-slate-300 font-bold text-sm sm:text-base py-4 px-5 rounded-2xl transition cursor-pointer flex flex-col items-center justify-center text-center gap-1"
+          >
+            <span>Gör om samma frågor</span>
+            <span class="text-xs font-normal text-slate-600">Nollställ och kör om passet</span>
+          </button>
+
+          <button
+            type="button"
+            id="btn-retry-wrong"
+            onclick="retryWrongQuestions()"
+            class="bg-amber-500 hover:bg-amber-600 disabled:bg-slate-100 disabled:text-slate-400 disabled:border-slate-200 disabled:cursor-not-allowed text-white border border-amber-600 font-bold text-sm sm:text-base py-4 px-5 rounded-2xl shadow-sm transition cursor-pointer flex flex-col items-center justify-center text-center gap-1"
+          >
+            <span>Öva på mina fel</span>
+            <span id="retry-wrong-sub" class="text-xs font-normal opacity-90">Repetera missade uppgifter</span>
+          </button>
+        </div>
+
+        <!-- Genomgång av alla frågor -->
+        <div class="space-y-3">
+          <h3 class="font-extrabold text-slate-900 text-lg">Genomgång av uppgifterna</h3>
+          <div id="results-list" class="space-y-2.5">
+            <!-- Fylls i via JS -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="max-w-6xl w-full mx-auto px-4 sm:px-6 py-4 text-center text-xs text-slate-400">
+    Nationella provet i matematik • Årskurs 6 • Träningsverktyg med automatisk uppgiftsgenerator
+  </footer>
+
+  <script>
+    // =========================================================================
+    // 1. TILLSTÅND & HJÄLPFUNKTIONER
+    // =========================================================================
+    let questions = [];
+    let currentIndex = 0;
+    let lastSessionLength = 7;
+
+    function randInt(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function pickRandom(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    function shuffleArray(arr) {
+      const copy = arr.slice();
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    function formatSv(num) {
+      if (Number.isInteger(num)) return String(num);
+      const rounded = Math.round(num * 10000) / 10000;
+      return String(rounded).replace('.', ',');
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    // =========================================================================
+    // 2. UPPGIFTSGENERATOR FÖR ÅK 6 (12 OLIKA UPPGIFTSMALLAR)
+    // =========================================================================
+    const questionGenerators = [
+      // 1. Bråk, decimal och procent – Jämför värde
+      function genCompareFractionDecimalPercent() {
+        const cases = [
+          {
+            items: ['3/4', '0,72', '70 %'],
+            largest: '3/4',
+            accepted: ['3/4', '0,75', '75%', '75 %'],
+            hint: 'Skriv om alla tre talen till decimalform med två decimaler.',
+            explanation: '70 % = 0,70 och 3/4 = 3 ÷ 4 = 0,75. Då kan vi enkelt jämföra 0,75, 0,72 och 0,70.',
+            formula: 'Bråk → Decimal: Täljare ÷ Nämnare | Procent → Decimal: Dividera med 100',
+            solution: '3/4 = 0,75 • 0,72 = 0,72 • 70 % = 0,70 → Störst är 3/4 (0,75).'
+          },
+          {
+            items: ['2/5', '0,45', '38 %'],
+            largest: '0,45',
+            accepted: ['0,45', '45%', '45 %', '9/20'],
+            hint: 'Förläng 2/5 till tiondelar (4/10) eller hundradelar (40/100).',
+            explanation: '2/5 = 4/10 = 0,40 och 38 % = 0,38. Jämför med 0,45.',
+            formula: '2/5 = (2·2)/(5·2) = 4/10 = 0,40',
+            solution: '2/5 = 0,40 • 0,45 = 0,45 • 38 % = 0,38 → Störst är 0,45.'
+          },
+          {
+            items: ['3/5', '0,58', '62 %'],
+            largest: '62 %',
+            accepted: ['62%', '62 %', '0,62', '31/50'],
+            hint: 'Omvandla bråket 3/5 och decimaltalet 0,58 till procent.',
+            explanation: '3/5 = 6/10 = 60 % och 0,58 = 58 %. Jämför med 62 %.',
+            formula: 'Decimal → Procent: Multiplicera med 100',
+            solution: '3/5 = 60 % • 0,58 = 58 % • 62 % = 62 % → Störst är 62 %.'
+          },
+          {
+            items: ['1/4', '0,22', '28 %'],
+            largest: '28 %',
+            accepted: ['28%', '28 %', '0,28', '7/25'],
+            hint: 'En fjärdedel (1/4) är samma sak som 0,25 eller 25 %.',
+            explanation: '1/4 = 0,25 = 25 % och 0,22 = 22 %. Jämför med 28 %.',
+            formula: '1/4 = 0,25 = 25 %',
+            solution: '1/4 = 25 % • 0,22 = 22 % • 28 % = 28 % → Störst är 28 %.'
+          }
+        ];
+        const chosen = pickRandom(cases);
+        const shuffledItems = shuffleArray(chosen.items);
+        return {
+          category: 'Taluppfattning • Bråk & Procent',
+          part: 'Delprov D (Utan miniräknare)',
+          title: 'Vilket av dessa tre tal har störst värde?',
+          body: `<div class="grid grid-cols-3 gap-3 text-center my-1">
+            ${shuffledItems.map(it => `<div class="bg-white border-2 border-slate-200 rounded-xl py-3 px-2 font-math font-bold text-xl sm:text-2xl text-slate-900">${it}</div>`).join('')}
+          </div>
+          <p class="text-sm text-slate-600 mt-2">Skriv det tal som är störst.</p>`,
+          unit: '',
+          displayAnswer: chosen.largest,
+          accepted: chosen.accepted,
+          hint: chosen.hint,
+          explanation: chosen.explanation,
+          formula: chosen.formula,
+          solution: chosen.solution
+        };
+      },
+
+      // 2. Beräkna del av antal med bråk
+      function genFractionOfWhole() {
+        const configs = [
+          { num: 2, den: 5, whole: randInt(4, 12) * 5 },
+          { num: 3, den: 4, whole: randInt(4, 15) * 4 },
+          { num: 2, den: 3, whole: randInt(5, 16) * 3 },
+          { num: 3, den: 5, whole: randInt(4, 14) * 5 }
+        ];
+        const c = pickRandom(configs);
+        const onePart = c.whole / c.den;
+        const ans = onePart * c.num;
+        return {
+          category: 'Taluppfattning • Bråk',
+          part: 'Delprov B/D',
+          title: `Hur mycket är ${c.num}/${c.den} av ${c.whole} kr?`,
+          body: `Beräkna värdet av <span class="font-math font-bold text-blue-700">${c.num}/${c.den}</span> av <span class="font-math font-bold">${c.whole} kr</span>.`,
+          unit: 'kr',
+          displayAnswer: `${ans} kr`,
+          accepted: [String(ans), `${ans} kr`],
+          hint: `Börja med att räkna ut vad 1/${c.den} är genom att dividera ${c.whole} med ${c.den}.`,
+          explanation: `Först delar vi ${c.whole} kr i ${c.den} lika stora delar. Sedan multiplicerar vi med ${c.num} för att få ${c.num}/${c.den}.`,
+          formula: `Delen = (Hela ÷ Nämnare) · Täljare`,
+          solution: `1/${c.den} av ${c.whole} = ${c.whole} ÷ ${c.den} = ${onePart} kr → ${c.num}/${c.den} = ${onePart} · ${c.num} = ${ans} kr.`
+        };
+      },
+
+      // 3. Procent & Rabatt
+      function genDiscountPercent() {
+        const items = ['en ryggsäck', 'ett par hörlurar', 'en jacka', 'ett brädspel', 'en fotboll'];
+        const item = pickRandom(items);
+        const scenarios = [
+          { pct: 25, price: randInt(4, 16) * 40 },
+          { pct: 20, price: randInt(3, 15) * 50 },
+          { pct: 10, price: randInt(5, 25) * 20 },
+          { pct: 50, price: randInt(6, 24) * 20 }
+        ];
+        const s = pickRandom(scenarios);
+        const discount = (s.price * s.pct) / 100;
+        const newPrice = s.price - discount;
+        return {
+          category: 'Procent • Vardagsmatematik',
+          part: 'Delprov B/C',
+          title: `Priset på ${item} sänks med ${s.pct} %`,
+          body: `Ordinarie pris för ${item} är <span class="font-math font-bold">${s.price} kr</span>. Under en rea sänks priset med <span class="font-math font-bold text-amber-700">${s.pct} %</span>. Vad kostar varan efter prissänkningen?`,
+          unit: 'kr',
+          displayAnswer: `${newPrice} kr`,
+          accepted: [String(newPrice), `${newPrice} kr`],
+          hint: s.pct === 25 ? '25 % är samma sak som en fjärdedel (÷ 4).' : s.pct === 20 ? '20 % är samma sak som en femtedel (÷ 5).' : s.pct === 10 ? '10 % är en tiondel (÷ 10).' : '50 % är hälften (÷ 2).',
+          explanation: `Räkna först ut hur många kronor rabatten motsvarar (${s.pct} % av ${s.price} kr) och dra sedan bort rabatten från ordinarie pris.`,
+          formula: `Rabatt = Ordinarie pris · (${s.pct} / 100)  |  Nytt pris = Ordinarie pris − Rabatt`,
+          solution: `Rabatt: ${s.price} · ${formatSv(s.pct / 100)} = ${discount} kr. Nytt pris: ${s.price} − ${discount} = ${newPrice} kr.`
+        };
+      },
+
+      // 4. Geometri: Area av rektangel eller triangel
+      function genGeometryArea() {
+        const isTriangle = Math.random() < 0.5;
+        if (!isTriangle) {
+          const b = randInt(5, 14);
+          const h = randInt(3, 11);
+          const area = b * h;
+          return {
+            category: 'Geometri • Area',
+            part: 'Delprov B',
+            title: `Beräkna rektangelns area`,
+            body: `En rektangel har basen <span class="font-math font-bold text-blue-700">b = ${b} cm</span> och höjden <span class="font-math font-bold text-blue-700">h = ${h} cm</span>. Hur stor är rektangelns area?`,
+            unit: 'cm²',
+            displayAnswer: `${area} cm²`,
+            accepted: [String(area), `${area} cm²`, `${area} cm2`],
+            hint: 'Arean av en rektangel får du genom att multiplicera basen med höjden.',
+            explanation: 'Area mäter hur stor yta figuren täcker och anges i kvadratcentimeter (cm²).',
+            formula: 'Area (rektangel) = basen · höjden = b · h',
+            solution: `Area = ${b} cm · ${h} cm = ${area} cm².`
+          };
+        } else {
+          const b = randInt(3, 10) * 2;
+          const h = randInt(4, 12);
+          const area = (b * h) / 2;
+          return {
+            category: 'Geometri • Area',
+            part: 'Delprov B/C',
+            title: `Beräkna triangelns area`,
+            body: `En triangel har basen <span class="font-math font-bold text-blue-700">b = ${b} cm</span> och höjden <span class="font-math font-bold text-blue-700">h = ${h} cm</span>. Hur stor är triangelns area?`,
+            unit: 'cm²',
+            displayAnswer: `${area} cm²`,
+            accepted: [String(area), `${area} cm²`, `${area} cm2`],
+            hint: 'En triangel är hälften så stor som en rektangel med samma bas och höjd.',
+            explanation: 'Multiplicera basen med höjden och dividera sedan svaret med 2.',
+            formula: 'Area (triangel) = (b · h) / 2',
+            solution: `Area = (${b} · ${h}) / 2 = ${b * h} / 2 = ${area} cm².`
+          };
+        }
+      },
+
+      // 5. Geometri: Omkrets av rektangel
+      function genGeometryPerimeter() {
+        const b = randInt(6, 18);
+        const h = randInt(3, 12);
+        const perim = 2 * b + 2 * h;
+        return {
+          category: 'Geometri • Omkrets',
+          part: 'Delprov B',
+          title: 'Beräkna rektangelns omkrets',
+          body: `En rektangel har längden <span class="font-math font-bold text-blue-700">${b} cm</span> och bredden <span class="font-math font-bold text-blue-700">${h} cm</span>. Hur lång är omkretsen runt hela rektangeln?`,
+          unit: 'cm',
+          displayAnswer: `${perim} cm`,
+          accepted: [String(perim), `${perim} cm`],
+          hint: 'Kom ihåg att en rektangel har fyra sidor – två långsidor och två kortsidor.',
+          explanation: 'Omkretsen är den sammanlagda sträckan runt figurens ytterkanter.',
+          formula: 'Omkrets = b + h + b + h = 2 · b + 2 · h',
+          solution: `Omkrets = 2 · ${b} + 2 · ${h} = ${2 * b} + ${2 * h} = ${perim} cm.`
+        };
+      },
+
+      // 6. Geometri: Vinkelsumma i triangel
+      function genTriangleAngles() {
+        const a = randInt(35, 85);
+        const b = randInt(30, 75);
+        const c = 180 - a - b;
+        return {
+          category: 'Geometri • Vinklar',
+          part: 'Delprov B/D',
+          title: 'Hur stor är den tredje vinkeln i triangeln?',
+          body: `Två av vinklarna i en triangel är <span class="font-math font-bold text-blue-700">${a}°</span> och <span class="font-math font-bold text-blue-700">${b}°</span>. Beräkna hur många grader den tredje vinkeln är.`,
+          unit: '°',
+          displayAnswer: `${c}°`,
+          accepted: [String(c), `${c}°`],
+          hint: 'Summan av alla tre vinklar i en triangel är alltid 180°.',
+          explanation: 'Addera de två kända vinklarna och subtrahera summan från 180°.',
+          formula: 'Vinkelsumma i triangel: v₁ + v₂ + v₃ = 180°',
+          solution: `${a}° + ${b}° = ${a + b}° → Tredje vinkeln = 180° − ${a + b}° = ${c}°.`
+        };
+      },
+
+      // 7. Enhetsomvandlingar (l/dl, m/km, kg/g, cm/mm)
+      function genUnitConversion() {
+        const types = [
+          () => {
+            const liters = randInt(12, 48) / 10;
+            const dl = Math.round(liters * 10);
+            return {
+              title: `Omvandla ${formatSv(liters)} liter till deciliter`,
+              body: `En tillbringare rymmer <span class="font-math font-bold text-blue-700">${formatSv(liters)} l</span> saft. Hur många deciliter (<span class="font-math">dl</span>) motsvarar det?`,
+              unit: 'dl',
+              displayAnswer: `${dl} dl`,
+              accepted: [String(dl), `${dl} dl`],
+              hint: 'Prefixet deci betyder tiondel. Det går 10 deciliter på 1 liter.',
+              explanation: 'Multiplicera antalet liter med 10 för att omvandla till deciliter.',
+              formula: '1 liter (l) = 10 deciliter (dl)',
+              solution: `${formatSv(liters)} · 10 = ${dl} dl.`
+            };
+          },
+          () => {
+            const km = randInt(15, 65) / 10;
+            const m = Math.round(km * 1000);
+            return {
+              title: `Omvandla ${formatSv(km)} km till meter`,
+              body: `Skolvägen är <span class="font-math font-bold text-blue-700">${formatSv(km)} km</span> lång. Hur många meter (<span class="font-math">m</span>) är det?`,
+              unit: 'm',
+              displayAnswer: `${m} m`,
+              accepted: [String(m), `${m} m`],
+              hint: 'Prefixet kilo betyder tusen. Det går 1 000 meter på 1 kilometer.',
+              explanation: 'Multiplicera antalet kilometer med 1 000 för att få sträckan i meter.',
+              formula: '1 kilometer (km) = 1 000 meter (m)',
+              solution: `${formatSv(km)} · 1 000 = ${m} m.`
+            };
+          },
+          () => {
+            const g = randInt(12, 45) * 100;
+            const kg = g / 1000;
+            return {
+              title: `Omvandla ${g} g till kilogram`,
+              body: `Ett paket väger <span class="font-math font-bold text-blue-700">${g} g</span>. Hur många kilogram (<span class="font-math">kg</span>) väger paketet?`,
+              unit: 'kg',
+              displayAnswer: `${formatSv(kg)} kg`,
+              accepted: [formatSv(kg), `${formatSv(kg)} kg`],
+              hint: 'Det går 1 000 gram på 1 kilogram. Dividera med 1 000.',
+              explanation: 'Flytta decimaltecknet tre steg åt vänster när du dividerar med 1 000.',
+              formula: '1 000 gram (g) = 1 kilogram (kg)',
+              solution: `${g} ÷ 1 000 = ${formatSv(kg)} kg.`
+            };
+          },
+          () => {
+            const cm = randInt(45, 245) / 10;
+            const mm = Math.round(cm * 10);
+            return {
+              title: `Omvandla ${formatSv(cm)} cm till millimeter`,
+              body: `Ett suddgummi är <span class="font-math font-bold text-blue-700">${formatSv(cm)} cm</span> långt. Hur många millimeter (<span class="font-math">mm</span>) är det?`,
+              unit: 'mm',
+              displayAnswer: `${mm} mm`,
+              accepted: [String(mm), `${mm} mm`],
+              hint: 'Det går 10 millimeter på 1 centimeter.',
+              explanation: 'Multiplicera antalet centimeter med 10.',
+              formula: '1 centimeter (cm) = 10 millimeter (mm)',
+              solution: `${formatSv(cm)} · 10 = ${mm} mm.`
+            };
+          }
+        ];
+        const chosen = pickRandom(types)();
+        return {
+          category: 'Enheter & Mätning',
+          part: 'Delprov B/D',
+          ...chosen
+        };
+      },
+
+      // 8. Algebra: Enkla ekvationer
+      function genLinearEquation() {
+        const a = randInt(2, 6);
+        const x = randInt(3, 12);
+        const b = randInt(4, 18);
+        const isPlus = Math.random() < 0.6;
+        const c = isPlus ? a * x + b : a * x - b;
+        const sign = isPlus ? '+' : '−';
+        const opText = isPlus ? `subtrahera ${b} från` : `addera ${b} till`;
+        const intermediate = isPlus ? c - b : c + b;
+
+        return {
+          category: 'Algebra • Ekvationer',
+          part: 'Delprov B/D',
+          title: `Lös ekvationen: ${a}x ${sign} ${b} = ${c}`,
+          body: `<div class="text-center py-2">
+            <span class="font-math text-2xl sm:text-3xl font-extrabold text-blue-800">${a}x ${sign} ${b} = ${c}</span>
+          </div>
+          <p class="text-sm text-slate-600 text-center">Vilket värde har variabeln <span class="font-math font-bold">x</span>?</p>`,
+          unit: '',
+          displayAnswer: `x = ${x}`,
+          accepted: [String(x), `x=${x}`, `x = ${x}`],
+          hint: `Använd balansmetoden: börja med att ${opText} båda sidor av likhetstecknet.`,
+          explanation: `När vi ${isPlus ? 'tar bort' : 'lägger till'} ${b} på båda sidor får vi ${a}x ensamt på vänster sida.`,
+          formula: `Balansmetoden: Gör samma räkneoperation i vänster led (VL) och höger led (HL)`,
+          solution: `${a}x ${sign} ${b} = ${c} → ${a}x = ${intermediate} → x = ${intermediate} ÷ ${a} → x = ${x}.`
+        };
+      },
+
+      // 9. Algebra: Talföljder & mönster
+      function genNumberSequence() {
+        const start = randInt(3, 19);
+        const step = randInt(4, 11);
+        const seq = [start, start + step, start + 2 * step, start + 3 * step];
+        const nextVal = start + 4 * step;
+        return {
+          category: 'Algebra • Talföljder',
+          part: 'Delprov B/D',
+          title: 'Vilket tal kommer härnäst i talföljden?',
+          body: `<div class="flex flex-wrap items-center justify-center gap-2 sm:gap-3 py-2 font-math text-xl sm:text-2xl font-bold">
+            ${seq.map(n => `<span class="bg-white border border-slate-300 px-3.5 py-2 rounded-xl text-slate-900">${n}</span>`).join('')}
+            <span class="bg-blue-50 border-2 border-blue-400 px-4 py-2 rounded-xl text-blue-700">?</span>
+          </div>`,
+          unit: '',
+          displayAnswer: String(nextVal),
+          accepted: [String(nextVal)],
+          hint: `Undersök hur mycket talet ökar mellan ${seq[0]} och ${seq[1]}.`,
+          explanation: `Skillnaden mellan varje tal i följden är konstant (+${step}).`,
+          formula: `Nästa tal = Föregående tal + ${step}`,
+          solution: `Ökningen är +${step} i varje steg: ${seq[3]} + ${step} = ${nextVal}.`
+        };
+      },
+
+      // 10. Statistik: Medelvärde
+      function genMeanValue() {
+        const mean = randInt(15, 35);
+        const d1 = randInt(3, 8);
+        const d2 = randInt(2, 7);
+        const nums = shuffleArray([mean - d1, mean + d1, mean - d2, mean + d2]);
+        const sum = nums.reduce((acc, v) => acc + v, 0);
+        return {
+          category: 'Statistik • Medelvärde',
+          part: 'Delprov B/C',
+          title: 'Beräkna medelvärdet av de fyra talen',
+          body: `Under fyra dagar läste Maja följande antal minuter:
+          <div class="flex flex-wrap gap-2 my-2 font-math font-bold text-lg">
+            ${nums.map(n => `<span class="bg-white border border-slate-300 px-3 py-1.5 rounded-xl">${n} min</span>`).join('')}
+          </div>
+          Vad är medelvärdet av lästiden per dag?`,
+          unit: 'min',
+          displayAnswer: `${mean} min`,
+          accepted: [String(mean), `${mean} min`],
+          hint: 'Addera först alla fyra värdena och dividera sedan summan med antalet dagar (4).',
+          explanation: 'Medelvärdet visar hur många minuter det blir per dag om tiden fördelas helt jämnt.',
+          formula: 'Medelvärde = Summan av alla värden ÷ Antalet värden',
+          solution: `(${nums.join(' + ')}) ÷ 4 = ${sum} ÷ 4 = ${mean} min.`
+        };
+      },
+
+      // 11. Statistik: Median
+      function genMedianValue() {
+        const base = randInt(12, 28);
+        const raw = [base - 5, base - 2, base, base + 4, base + 9];
+        const shuffled = shuffleArray(raw);
+        return {
+          category: 'Statistik • Median',
+          part: 'Delprov B/D',
+          title: 'Bestäm medianen av mätvärdena',
+          body: `Fem elever hoppade längdhopp. Resultaten i centimeter blev:
+          <div class="flex flex-wrap gap-2 my-2 font-math font-bold text-lg">
+            ${shuffled.map(n => `<span class="bg-white border border-slate-300 px-3 py-1.5 rounded-xl">${n + 200} cm</span>`).join('')}
+          </div>
+          Vilket värde är <span class="font-bold">medianen</span>?`,
+          unit: 'cm',
+          displayAnswer: `${base + 200} cm`,
+          accepted: [String(base + 200), `${base + 200} cm`],
+          hint: 'Börja alltid med att sortera alla fem talen i storleksordning från minst till störst.',
+          explanation: 'Medianen är det tal som hamnar precis i mitten när alla tal är storleksordnade.',
+          formula: 'Median = Mittersta talet i en storleksordnad serie',
+          solution: `Storleksordning: ${raw.map(n => n + 200).join(', ')}. Mittersta talet (plats 3 av 5) är ${base + 200} cm.`
+        };
+      },
+
+      // 12. Sannolikhet
+      function genProbability() {
+        const scenarios = [
+          { fav: 3, total: 10, color: 'röd', other: 'blå', frac: '3/10', dec: '0,3', pct: '30 %' },
+          { fav: 2, total: 5, color: 'grön', other: 'gul', frac: '2/5', dec: '0,4', pct: '40 %' },
+          { fav: 1, total: 4, color: 'blå', other: 'vit', frac: '1/4', dec: '0,25', pct: '25 %' },
+          { fav: 3, total: 5, color: 'gul', other: 'svart', frac: '3/5', dec: '0,6', pct: '60 %' }
+        ];
+        const s = pickRandom(scenarios);
+        const rest = s.total - s.fav;
+        return {
+          category: 'Sannolikhet',
+          part: 'Delprov B/D',
+          title: `Hur stor är sannolikheten att dra en ${s.color} kula?`,
+          body: `I en tygpåse ligger <span class="font-math font-bold text-blue-700">${s.fav} ${s.color}a</span> kulor och <span class="font-math font-bold">${rest} ${s.other}a</span> kulor. Du drar en kula utan att titta. Ange sannolikheten i bråk-, decimal- eller procentform.`,
+          unit: '',
+          displayAnswer: `${s.frac} (${s.pct})`,
+          accepted: [s.frac, s.dec, s.pct, s.pct.replace(' ', '')],
+          hint: `Räkna först ihop det totala antalet kulor i påsen (${s.fav} + ${rest}).`,
+          explanation: `Det finns ${s.fav} gynnsamma utfall (${s.color}a kulor) av totalt ${s.total} möjliga utfall.`,
+          formula: 'Sannolikhet P = Antal gynnsamma utfall ÷ Totalt antal möjliga utfall',
+          solution: `Totalt antal kulor: ${s.fav} + ${rest} = ${s.total}. P = ${s.fav}/${s.total} = ${s.dec} = ${s.pct}.`
+        };
+      }
+    ];
+
+    function buildQuestionSet(count) {
+      const generated = [];
+      let pool = shuffleArray(questionGenerators);
+      for (let i = 0; i < count; i++) {
+        if (pool.length === 0) {
+          pool = shuffleArray(questionGenerators);
+        }
+        const genFn = pool.pop();
+        const q = genFn();
+        q.id = i + 1;
+        q.userAnswer = '';
+        q.isAnswered = false;
+        q.isCorrect = false;
+        generated.push(q);
+      }
+      return generated;
+    }
+
+    // =========================================================================
+    // 3. SÄKER RÄTTNINGSLOGIK (UTAN EVAL) & LIVE-TOLKNING
+    // =========================================================================
+    // Säker beräkning av enkla aritmetiska uttryck (+, -, *, /, :) med parenteser
+    function safeEvaluateArithmetic(expr) {
+      const cleaned = expr
+        .replace(/,/g, '.')
+        .replace(/−/g, '-')
+        .replace(/[·×]/g, '*')
+        .replace(/:/g, '/')
+        .replace(/\s+/g, '');
+
+      if (!cleaned || !/^[0-9+\-*/().]+$/.test(cleaned)) {
+        return NaN;
+      }
+      // Förhindra ogiltiga operatorsekvenser som ++, //, **
+      if (/[+\-*/]{2,}/.test(cleaned.replace(/\([+-]/g, '('))) {
+        return NaN;
+      }
+
+      // Tokenisera
+      const tokens = [];
+      let i = 0;
+      while (i < cleaned.length) {
+        const ch = cleaned[i];
+        if (/[0-9.]/.test(ch)) {
+          let numStr = '';
+          let dotCount = 0;
+          while (i < cleaned.length && /[0-9.]/.test(cleaned[i])) {
+            if (cleaned[i] === '.') dotCount++;
+            if (dotCount > 1) return NaN;
+            numStr += cleaned[i];
+            i++;
+          }
+          const val = parseFloat(numStr);
+          if (isNaN(val)) return NaN;
+          tokens.push({ type: 'num', value: val });
+        } else if ('+-*/()'.includes(ch)) {
+          // Hantera unärt minus/plus
+          if ((ch === '-' || ch === '+') && (tokens.length === 0 || tokens[tokens.length - 1].type === 'op' && tokens[tokens.length - 1].value !== ')')) {
+            tokens.push({ type: 'num', value: 0 });
+          }
+          tokens.push({ type: 'op', value: ch });
+          i++;
+        } else {
+          return NaN;
+        }
+      }
+
+      // Shunting-yard till RPN
+      const output = [];
+      const ops = [];
+      const prec = { '+': 1, '-': 1, '*': 2, '/': 2 };
+
+      for (const tok of tokens) {
+        if (tok.type === 'num') {
+          output.push(tok.value);
+        } else if (tok.value === '(') {
+          ops.push('(');
+        } else if (tok.value === ')') {
+          while (ops.length && ops[ops.length - 1] !== '(') {
+            output.push(ops.pop());
+          }
+          if (!ops.length) return NaN;
+          ops.pop();
+        } else {
+          while (ops.length && ops[ops.length - 1] !== '(' && prec[ops[ops.length - 1]] >= prec[tok.value]) {
+            output.push(ops.pop());
+          }
+          ops.push(tok.value);
+        }
+      }
+      while (ops.length) {
+        const top = ops.pop();
+        if (top === '(') return NaN;
+        output.push(top);
+      }
+
+      // Utvärdera RPN
+      const stack = [];
+      for (const item of output) {
+        if (typeof item === 'number') {
+          stack.push(item);
+        } else {
+          if (stack.length < 2) return NaN;
+          const b = stack.pop();
+          const a = stack.pop();
+          if (item === '+') stack.push(a + b);
+          else if (item === '-') stack.push(a - b);
+          else if (item === '*') stack.push(a * b);
+          else if (item === '/') {
+            if (Math.abs(b) < 1e-12) return NaN;
+            stack.push(a / b);
+          }
+        }
+      }
+      return stack.length === 1 ? stack[0] : NaN;
+    }
+
+    function normalizeUnit(u) {
+      if (!u) return '';
+      const low = u.toLowerCase().trim();
+      if (low === 'kronor') return 'kr';
+      if (low === 'cm2') return 'cm²';
+      if (low === 'liter') return 'l';
+      if (low === 'minuter') return 'min';
+      if (low === 'grader') return '°';
+      return low;
+    }
+
+    function inspectInput(rawStr, expectedUnit) {
+      const original = String(rawStr || '').trim();
+      if (!original) {
+        return { empty: true };
+      }
+
+      const unitRegex = /\s*(%|kr|kronor|cm²|cm2|cm|mm|dm|m|km|kg|hg|g|dl|cl|ml|l|liter|min|minuter|grader|°)\s*$/i;
+      const unitMatch = original.match(unitRegex);
+      const detectedUnit = unitMatch ? normalizeUnit(unitMatch[1]) : '';
+
+      // Ta bort eventuell enhet i slutet samt inledande "x ="
+      let core = original.replace(unitRegex, '').replace(/^x\s*=\s*/i, '').trim();
+      const hasPercent = core.endsWith('%');
+      if (hasPercent) {
+        core = core.slice(0, -1).trim();
+      }
+
+      const isFraction = /^[+-]?\d+\s*\/\s*[+-]?\d+$/.test(core);
+      const hasExpressionOps = /[+\-−·×*:/]/.test(core.replace(/^[+-]/, ''));
+      const numericVal = safeEvaluateArithmetic(core);
+      const formattedCore = core.replace(/\./g, ',').replace(/\s+/g, '');
+      const expUnit = normalizeUnit(expectedUnit);
+
+      // Bygg tydlig live-beskrivning
+      let description = '';
+      let statusType = 'info'; // 'info' | 'warn'
+
+      if (detectedUnit && expUnit && detectedUnit !== expUnit) {
+        description = `Varning: Du skrev enheten "${detectedUnit}", men frågan efterfrågar "${expUnit}".`;
+        statusType = 'warn';
+      } else if (!isNaN(numericVal)) {
+        if (isFraction) {
+          description = `Tolkas som bråktalet ${formattedCore} (= ${formatSv(numericVal)} eller ${formatSv(numericVal * 100)} %)`;
+        } else if (hasPercent || detectedUnit === '%') {
+          description = `Tolkas som ${formatSv(numericVal)} % (= ${formatSv(numericVal / 100)} i decimalform)`;
+        } else if (hasExpressionOps) {
+          description = `Tolkas som uttrycket ${formattedCore} = ${formatSv(numericVal)}${detectedUnit ? ' ' + detectedUnit : ''}`;
+        } else if (detectedUnit) {
+          description = `Tolkas som ${formatSv(numericVal)} ${detectedUnit}`;
+        } else if (expUnit) {
+          description = `Tolkas som talet ${formatSv(numericVal)} (enheten ${expUnit} läggs till automatiskt)`;
+        } else {
+          description = `Tolkas som talet ${formatSv(numericVal)}`;
+        }
+      } else {
+        description = `Inmatning: "${original}"`;
+      }
+
+      return {
+        empty: false,
+        original,
+        core: formattedCore.toLowerCase(),
+        numericVal,
+        detectedUnit,
+        hasPercent: hasPercent || detectedUnit === '%',
+        expectedUnit: expUnit,
+        wrongUnit: Boolean(detectedUnit && expUnit && detectedUnit !== expUnit),
+        description,
+        statusType
+      };
+    }
+
+    function evaluateAnswer(userInput, question) {
+      const info = inspectInput(userInput, question.unit);
+      if (info.empty) {
+        return { valid: false, reason: 'Skriv in ett svar först innan du bekräftar.' };
+      }
+      if (info.wrongUnit) {
+        return {
+          valid: true,
+          isCorrect: false,
+          wrongUnitAlert: true,
+          message: `Fel enhet angiven! Du svarade med "${info.detectedUnit}", men uppgiften frågar efter "${info.expectedUnit}".`
+        };
+      }
+
+      for (const acc of question.accepted) {
+        const accInfo = inspectInput(acc, question.unit);
+        // 1. Exakt strängmatchning (t.ex. "3/4")
+        if (info.core === accInfo.core && (!accInfo.detectedUnit || !info.detectedUnit || info.detectedUnit === accInfo.detectedUnit)) {
+          return { valid: true, isCorrect: true };
+        }
+        // 2. Numerisk jämförelse
+        if (!isNaN(info.numericVal) && !isNaN(accInfo.numericVal)) {
+          // Direkt numerisk likhet (t.ex. 0,75 == 3/4 eller 2,50 == 2,5)
+          if (Math.abs(info.numericVal - accInfo.numericVal) < 0.0005) {
+            return { valid: true, isCorrect: true };
+          }
+          // Procent-ekvivalens (t.ex. facit är "30 %" och eleven svarar "0,3" eller "30")
+          if (accInfo.hasPercent && !info.hasPercent) {
+            if (Math.abs(info.numericVal - accInfo.numericVal) < 0.0005 || Math.abs(info.numericVal * 100 - accInfo.numericVal) < 0.0005) {
+              return { valid: true, isCorrect: true };
+            }
+          }
+          if (!accInfo.hasPercent && info.hasPercent) {
+            if (Math.abs(info.numericVal / 100 - accInfo.numericVal) < 0.0005) {
+              return { valid: true, isCorrect: true };
+            }
+          }
+        }
+      }
+
+      return { valid: true, isCorrect: false };
+    }
+
+    // =========================================================================
+    // 4. INTERAKTION & RENDERING
+    // =========================================================================
+    function showScreen(screenId) {
+      ['screen-start', 'screen-quiz', 'screen-results'].forEach(id => {
+        document.getElementById(id).classList.toggle('hidden', id !== screenId);
+      });
+      document.getElementById('header-stats').classList.toggle('hidden', screenId !== 'screen-quiz');
+    }
+
+    function returnToStart() {
+      showScreen('screen-start');
+    }
+
+    function startNewSession(count) {
+      lastSessionLength = count;
+      questions = buildQuestionSet(count);
+      currentIndex = 0;
+      showScreen('screen-quiz');
+      renderCurrentQuestion();
+    }
+
+    function retrySameQuestions() {
+      questions.forEach(q => {
+        q.userAnswer = '';
+        q.isAnswered = false;
+        q.isCorrect = false;
+      });
+      currentIndex = 0;
+      showScreen('screen-quiz');
+      renderCurrentQuestion();
+    }
+
+    function retryWrongQuestions() {
+      const wrongOnes = questions.filter(q => !q.isCorrect);
+      if (wrongOnes.length === 0) return;
+      questions = wrongOnes.map((q, idx) => ({
+        ...q,
+        id: idx + 1,
+        userAnswer: '',
+        isAnswered: false,
+        isCorrect: false
+      }));
+      currentIndex = 0;
+      showScreen('screen-quiz');
+      renderCurrentQuestion();
+    }
+
+    function updateHeaderStats() {
+      const correctCount = questions.filter(q => q.isCorrect).length;
+      document.getElementById('header-progress').textContent = `${currentIndex + 1} / ${questions.length}`;
+      document.getElementById('header-score').textContent = `${correctCount} / ${questions.length}`;
+    }
+
+    function renderQuestionMap() {
+      const mapEl = document.getElementById('question-map');
+      mapEl.innerHTML = questions.map((q, idx) => {
+        let styleClass = 'bg-slate-100 text-slate-700 border-slate-300';
+        if (q.isAnswered) {
+          styleClass = q.isCorrect
+            ? 'bg-emerald-500 text-white border-emerald-600'
+            : 'bg-rose-500 text-white border-rose-600';
+        }
+        const activeRing = idx === currentIndex ? 'ring-2 ring-offset-2 ring-blue-600 font-extrabold' : '';
+        return `
+          <button
+            type="button"
+            onclick="goToQuestion(${idx})"
+            title="Gå till uppgift ${idx + 1}"
+            class="dot-btn w-8 h-8 rounded-full border font-math text-xs font-bold flex items-center justify-center cursor-pointer ${styleClass} ${activeRing}"
+          >
+            ${idx + 1}
+          </button>
+        `;
+      }).join('');
+    }
+
+    function renderCurrentQuestion() {
+      const q = questions[currentIndex];
+      updateHeaderStats();
+      renderQuestionMap();
+
+      document.getElementById('q-category').textContent = q.category;
+      document.getElementById('q-part').textContent = q.part;
+      document.getElementById('q-title').textContent = `${currentIndex + 1}. ${q.title}`;
+      document.getElementById('q-body').innerHTML = q.body;
+
+      // Enhetsledtråd vid skrivrutan
+      const unitHint = document.getElementById('q-unit-hint');
+      const unitBadge = document.getElementById('input-unit-badge');
+      if (q.unit) {
+        unitHint.textContent = `(svara i ${q.unit})`;
+        unitBadge.textContent = q.unit;
+        unitBadge.classList.remove('hidden');
+      } else {
+        unitHint.textContent = '';
+        unitBadge.classList.add('hidden');
+      }
+
+      // Hjälpkortstexter
+      document.getElementById('q-hint').textContent = q.hint;
+      document.getElementById('q-explanation').textContent = q.explanation;
+      document.getElementById('q-formula').textContent = q.formula;
+      document.getElementById('q-solution').textContent = q.solution;
+
+      // Stäng alla hjälpkort vid byte av uppgift
+      ['hint', 'explanation', 'solution'].forEach(key => {
+        document.getElementById(`panel-${key}`).classList.add('hidden');
+        document.getElementById(`btn-help-${key}`).setAttribute('aria-expanded', 'false');
+        document.getElementById(`chevron-${key}`).style.transform = 'rotate(0deg)';
+      });
+
+      // Återställ eller visa befintligt svar
+      const inputEl = document.getElementById('answer-input');
+      inputEl.value = q.userAnswer || '';
+      updateLiveParseBar();
+
+      const fbEl = document.getElementById('feedback-area');
+      if (q.isAnswered) {
+        renderFeedbackBox(q.isCorrect, q.displayAnswer, q.userAnswer, false, '');
+      } else {
+        fbEl.classList.add('hidden');
+      }
+
+      // Navigeringsknappar
+      document.getElementById('btn-prev').disabled = currentIndex === 0;
+      const nextBtn = document.getElementById('btn-next');
+      if (currentIndex === questions.length - 1) {
+        nextBtn.textContent = 'Slutför & se resultat ✓';
+        nextBtn.className = 'px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm transition shadow-sm cursor-pointer';
+      } else {
+        nextBtn.textContent = 'Nästa fråga →';
+        nextBtn.className = 'px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm transition shadow-sm cursor-pointer';
+      }
+
+      inputEl.focus();
+    }
+
+    function goToQuestion(idx) {
+      if (idx < 0 || idx >= questions.length) return;
+      currentIndex = idx;
+      renderCurrentQuestion();
+    }
+
+    function nextOrFinish() {
+      if (currentIndex < questions.length - 1) {
+        currentIndex++;
+        renderCurrentQuestion();
+      } else {
+        showResultsScreen();
+      }
+    }
+
+    function toggleHelp(type) {
+      const panel = document.getElementById(`panel-${type}`);
+      const btn = document.getElementById(`btn-help-${type}`);
+      const chev = document.getElementById(`chevron-${type}`);
+      const isHidden = panel.classList.contains('hidden');
+      panel.classList.toggle('hidden', !isHidden);
+      btn.setAttribute('aria-expanded', String(isHidden));
+      chev.style.transform = isHidden ? 'rotate(180deg)' : 'rotate(0deg)';
+    }
+
+    // =========================================================================
+    // 5. MARKÖRINFOGNING & KNAPPSATSHANTERING
+    // =========================================================================
+    function insertAtCursor(str) {
+      const inputEl = document.getElementById('answer-input');
+      const start = inputEl.selectionStart !== null ? inputEl.selectionStart : inputEl.value.length;
+      const end = inputEl.selectionEnd !== null ? inputEl.selectionEnd : inputEl.value.length;
+      const val = inputEl.value;
+
+      let toInsert = str;
+      if (str.startsWith(' ') && (start === 0 || val[start - 1] === ' ')) {
+        toInsert = str.trimStart();
+      }
+
+      inputEl.value = val.slice(0, start) + toInsert + val.slice(end);
+      const cursorPos = start + toInsert.length;
+      inputEl.focus();
+      inputEl.setSelectionRange(cursorPos, cursorPos);
+      updateLiveParseBar();
+    }
+
+    function backspaceAtCursor() {
+      const inputEl = document.getElementById('answer-input');
+      const start = inputEl.selectionStart !== null ? inputEl.selectionStart : inputEl.value.length;
+      const end = inputEl.selectionEnd !== null ? inputEl.selectionEnd : inputEl.value.length;
+      const val = inputEl.value;
+
+      if (start !== end) {
+        inputEl.value = val.slice(0, start) + val.slice(end);
+        inputEl.focus();
+        inputEl.setSelectionRange(start, start);
+      } else if (start > 0) {
+        inputEl.value = val.slice(0, start - 1) + val.slice(end);
+        inputEl.focus();
+        inputEl.setSelectionRange(start - 1, start - 1);
+      } else {
+        inputEl.focus();
+      }
+      updateLiveParseBar();
+    }
+
+    function clearInput() {
+      const inputEl = document.getElementById('answer-input');
+      inputEl.value = '';
+      inputEl.focus();
+      inputEl.setSelectionRange(0, 0);
+      updateLiveParseBar();
+    }
+
+    function updateLiveParseBar() {
+      const inputEl = document.getElementById('answer-input');
+      const barEl = document.getElementById('live-parse-bar');
+      const dotEl = document.getElementById('live-parse-dot');
+      const textEl = document.getElementById('live-parse-text');
+
+      const q = questions[currentIndex];
+      if (!q) return;
+
+      const info = inspectInput(inputEl.value, q.unit);
+      if (info.empty) {
+        barEl.className = 'bg-slate-50 border border-slate-200/80 rounded-xl px-3.5 py-2 text-xs text-slate-600 flex items-center gap-2 min-h-[34px]';
+        dotEl.className = 'w-2 h-2 rounded-full bg-slate-400 shrink-0';
+        textEl.textContent = q.unit
+          ? `Tips: Skriv ditt svar med eller utan enheten "${q.unit}".`
+          : 'Skriv med tangentbordet eller klicka på knappsatsen nedan.';
+        return;
+      }
+
+      if (info.statusType === 'warn') {
+        barEl.className = 'bg-amber-50 border border-amber-300 rounded-xl px-3.5 py-2 text-xs text-amber-900 font-semibold flex items-center gap-2 min-h-[34px]';
+        dotEl.className = 'w-2 h-2 rounded-full bg-amber-500 shrink-0';
+      } else {
+        barEl.className = 'bg-blue-50/70 border border-blue-200 rounded-xl px-3.5 py-2 text-xs text-blue-900 font-semibold flex items-center gap-2 min-h-[34px]';
+        dotEl.className = 'w-2 h-2 rounded-full bg-blue-600 shrink-0';
+      }
+      textEl.textContent = info.description;
+    }
+
+    // =========================================================================
+    // 6. RÄTTNING & ÅTERKOPPLING
+    // =========================================================================
+    function checkAnswer() {
+      const q = questions[currentIndex];
+      const inputEl = document.getElementById('answer-input');
+      const rawVal = inputEl.value.trim();
+
+      const result = evaluateAnswer(rawVal, q);
+      if (!result.valid) {
+        renderFeedbackBox(false, q.displayAnswer, '', false, result.reason);
+        inputEl.focus();
+        return;
+      }
+
+      q.userAnswer = rawVal;
+      q.isAnswered = true;
+      q.isCorrect = result.isCorrect;
+
+      updateHeaderStats();
+      renderQuestionMap();
+      renderFeedbackBox(result.isCorrect, q.displayAnswer, rawVal, Boolean(result.wrongUnitAlert), result.message || '');
+    }
+
+    function renderFeedbackBox(isCorrect, displayAnswer, userAnswer, isUnitWarning, customMessage) {
+      const fbEl = document.getElementById('feedback-area');
+      fbEl.classList.remove('hidden');
+
+      if (customMessage && !userAnswer) {
+        fbEl.className = 'rounded-2xl p-4 border-2 border-amber-300 bg-amber-50 text-amber-950 text-sm font-semibold';
+        fbEl.textContent = customMessage;
+        return;
+      }
+
+      if (isCorrect) {
+        fbEl.className = 'rounded-2xl p-4 border-2 border-emerald-500 bg-emerald-50 text-emerald-950 flex items-center justify-between gap-3';
+        fbEl.innerHTML = `
+          <div class="flex items-center gap-3">
+            <span class="w-8 h-8 rounded-full bg-emerald-600 text-white font-bold flex items-center justify-center shrink-0">✓</span>
+            <div>
+              <p class="font-extrabold text-sm sm:text-base">Rätt svar! Snyggt jobbat.</p>
+              <p class="text-xs sm:text-sm text-emerald-800">Rätt svar: <strong class="font-math">${escapeHtml(displayAnswer)}</strong></p>
+            </div>
+          </div>
+        `;
+      } else if (isUnitWarning) {
+        fbEl.className = 'rounded-2xl p-4 border-2 border-amber-500 bg-amber-50 text-amber-950 flex items-center justify-between gap-3';
+        fbEl.innerHTML = `
+          <div class="flex items-center gap-3">
+            <span class="w-8 h-8 rounded-full bg-amber-500 text-white font-bold flex items-center justify-center shrink-0">!</span>
+            <div>
+              <p class="font-extrabold text-sm sm:text-base">Kontrollera enheten!</p>
+              <p class="text-xs sm:text-sm text-amber-900">${escapeHtml(customMessage)}</p>
+            </div>
+          </div>
+        `;
+      } else {
+        fbEl.className = 'rounded-2xl p-4 border-2 border-rose-400 bg-rose-50 text-rose-950 flex flex-col sm:flex-row sm:items-center justify-between gap-3';
+        fbEl.innerHTML = `
+          <div class="flex items-center gap-3">
+            <span class="w-8 h-8 rounded-full bg-rose-600 text-white font-bold flex items-center justify-center shrink-0">✕</span>
+            <div>
+              <p class="font-extrabold text-sm sm:text-base">Inte riktigt rätt.</p>
+              <p class="text-xs sm:text-sm text-rose-800">Du svarade <strong class="font-math">${escapeHtml(userAnswer)}</strong>. Försök igen eller öppna <em>Lösning &amp; Formel</em>.</p>
+            </div>
+          </div>
+          <button
+            type="button"
+            onclick="revealCorrectAnswer()"
+            class="text-xs font-bold bg-white hover:bg-rose-100 text-rose-800 border border-rose-300 px-3 py-2 rounded-xl shrink-0 cursor-pointer"
+          >
+            Visa facit
+          </button>
+        `;
+      }
+    }
+
+    function revealCorrectAnswer() {
+      const q = questions[currentIndex];
+      const fbEl = document.getElementById('feedback-area');
+      fbEl.innerHTML = `
+        <div class="flex items-center gap-3">
+          <span class="w-8 h-8 rounded-full bg-slate-800 text-white font-bold flex items-center justify-center shrink-0">i</span>
+          <div>
+            <p class="font-extrabold text-sm sm:text-base text-slate-900">Rätt svar är <span class="font-math text-blue-700">${escapeHtml(q.displayAnswer)}</span></p>
+            <p class="text-xs text-slate-600">Öppna <strong>Lösning &amp; Formel</strong> till höger för att se uträkningen steg för steg.</p>
+          </div>
+        </div>
+      `;
+    }
+
+    // =========================================================================
+    // 7. RESULTATSKÄRM
+    // =========================================================================
+    function showResultsScreen() {
+      showScreen('screen-results');
+      const total = questions.length;
+      const correctCount = questions.filter(q => q.isCorrect).length;
+      const wrongCount = total - correctCount;
+      const pct = Math.round((correctCount / total) * 100);
+
+      document.getElementById('result-score-fraction').textContent = `${correctCount} / ${total}`;
+      document.getElementById('result-score-percent').textContent = `${pct} % rätt`;
+
+      const msgEl = document.getElementById('result-message');
+      if (pct === 100) {
+        msgEl.textContent = 'Alla rätt! Du har full koll på dessa moment inför nationella provet.';
+      } else if (pct >= 70) {
+        msgEl.textContent = 'Mycket bra resultat! Repetera gärna de uppgifter du missade för att nå 100 %.';
+      } else {
+        msgEl.textContent = 'Bra kämpat! Använd ledtrådarna och öva en gång till på de uppgifter som blev fel.';
+      }
+
+      // Hantera knappen "Öva på mina fel"
+      const retryWrongBtn = document.getElementById('btn-retry-wrong');
+      const retryWrongSub = document.getElementById('retry-wrong-sub');
+      if (wrongCount === 0) {
+        retryWrongBtn.disabled = true;
+        retryWrongSub.textContent = 'Inga fel att repetera!';
+      } else {
+        retryWrongBtn.disabled = false;
+        retryWrongSub.textContent = `Repetera ${wrongCount} ${wrongCount === 1 ? 'uppgift' : 'uppgifter'}`;
+      }
+
+      // Lista alla uppgifter
+      const listEl = document.getElementById('results-list');
+      listEl.innerHTML = questions.map((q, idx) => {
+        const statusBadge = q.isCorrect
+          ? '<span class="bg-emerald-100 text-emerald-800 border border-emerald-200 text-xs font-bold px-2.5 py-1 rounded-lg">✓ Rätt</span>'
+          : q.isAnswered
+            ? '<span class="bg-rose-100 text-rose-800 border border-rose-200 text-xs font-bold px-2.5 py-1 rounded-lg">✕ Fel</span>'
+            : '<span class="bg-slate-200 text-slate-700 text-xs font-bold px-2.5 py-1 rounded-lg">Obesvarad</span>';
+
+        return `
+          <div class="border border-slate-200 rounded-2xl p-4 bg-slate-50/70 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div class="space-y-1">
+              <div class="flex items-center gap-2">
+                <span class="font-math text-xs font-bold text-slate-500">#${idx + 1}</span>
+                <span class="text-xs font-semibold text-blue-700">${escapeHtml(q.category)}</span>
+              </div>
+              <p class="font-bold text-slate-900 text-sm sm:text-base">${escapeHtml(q.title)}</p>
+              <p class="text-xs text-slate-600">
+                Ditt svar: <strong class="font-math text-slate-900">${q.userAnswer ? escapeHtml(q.userAnswer) : '–'}</strong>
+                <span class="mx-2 text-slate-300">|</span>
+                Facit: <strong class="font-math text-emerald-700">${escapeHtml(q.displayAnswer)}</strong>
+              </p>
+            </div>
+            <div class="shrink-0 self-start sm:self-center">
+              ${statusBadge}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // =========================================================================
+    // 8. HÄNDELSELYSSNARE FÖR TANGENTBORD
+    // =========================================================================
+    const answerInput = document.getElementById('answer-input');
+    answerInput.addEventListener('input', updateLiveParseBar);
+    answerInput.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        checkAnswer();
+      }
+    });
+  </script>
+</body>
+</html>
